@@ -44,12 +44,12 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Account Information"
-                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/profile_title"
                 android:textColor="#000"
                 android:textSize="25sp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"/>
+                android:textStyle="bold" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
@@ -129,15 +129,15 @@
                 android:id="@+id/logoutBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/buttons"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="30dp"
-                android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
-                android:text="LOG OUT"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/buttons"
+                android:text="@string/Profile_btn"
                 android:textColor="#fff"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
 

@@ -11,37 +11,35 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Update this item?"
         android:gravity="center"
-        android:textColor="#000"
-        />
+        android:text="@string/Update_Title"
+        android:textColor="#000" />
 
     <TextView
         android:id="@+id/itemName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="transport"
-        android:textColor="#000"
         android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:text="@string/Update_transport"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter amount"
-        android:textColor="#000"
-        android:inputType="number"
         android:id="@+id/amount"
-        />
-
-    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Notes...one or 2 words"
-        android:textColor="#000"
+        android:hint="@string/Update_enterAmount"
+        android:inputType="number"
+        android:textColor="#000" />
+
+    <EditText
+        android:id="@+id/notes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/Update_note"
         android:inputType="textCapSentences"
-        android:id="@+id/notes"/>
+        android:textColor="#000" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,17 +51,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2">
+
             <Button
                 android:id="@+id/btnDelete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Delete"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="#000"
+                android:text="@string/Update_Delete_btn"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:background="#000"
-                android:layout_margin="2dp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
         </RelativeLayout>
 
 
@@ -72,17 +73,20 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2">
+
             <Button
                 android:id="@+id/btnUpdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Update"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="#000"
+                android:text="@string/Update_btn"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:background="#000"
-                android:layout_margin="2dp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

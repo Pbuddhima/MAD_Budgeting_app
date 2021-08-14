@@ -1,5 +1,46 @@
 <resources>
     <string name="app_name">Students Budgeting App</string>
+    <string name="profile_title">Account Information</string>
+    <string name="history_search_btn">"Search "</string>
+    <string name="Profile_btn">LOG OUT</string>
+    <string name="Login_title">Manage your finances!</string>
+    <string name="Login_title2">Sign in to Continue</string>
+    <string name="Login_Email">Enter Your Email</string>
+    <string name="Login_Pwd">Enter Your Password</string>
+    <string name="Login_btn">Sign In Now</string>
+    <string name="Login_btn2">Don\'t have an account? Sign Up</string>
+    <string name="Login_forget_pwd">Forgot password?</string>
+    <string name="Dash_mybudget">My Budget</string>
+    <string name="Dash_Today">Today</string>
+    <string name="Dash_Thisweek">This week</string>
+    <string name="Dash_ThisMonth">This Month</string>
+    <string name="Dash_Analytics">Analytics</string>
+    <string name="Dash_History">History</string>
+    <string name="Dash_Budget1">Budget</string>
+    <string name="Dash_Today2">Today</string>
+    <string name="Dash_Week2">Week</string>
+    <string name="Dash_Month2">Month</string>
+    <string name="Dash_Balance2">Balance</string>
+    <string name="Reg_Title">Manage your finances!</string>
+    <string name="Reg_Title2">Sign up to continue</string>
+    <string name="Reg_email">Enter Your Email</string>
+    <string name="Reg_pwd">Enter Your Password</string>
+    <string name="Reg_btn">Sign Up Now</string>
+    <string name="Reg_account">Already have an account? Sign in</string>
+    <string name="Analytics_Today">Today Analytics</string>
+    <string name="Analytics_Week">Week Analytics</string>
+    <string name="Analytics_Month">Month Analytics</string>
+    <string name="Set_budget">Tap on \'+\' to add budget item</string>
+    <string name="Input_Spend">Select item you\'ll spend on</string>
+    <string name="Item_amount">Enter amount</string>
+    <string name="Input_Cancel_btn">Cancel</string>
+    <string name="Input_Item_btn">Add item</string>
+    <string name="Update_transport">transport</string>
+    <string name="Update_Title">Update this item?</string>
+    <string name="Update_enterAmount">Enter amount</string>
+    <string name="Update_note">Notes...one or 2 words</string>
+    <string name="Update_Delete_btn">Delete</string>
+    <string name="Update_btn">Update</string>
 
     <string-array name="items">
         <item>select item</item>

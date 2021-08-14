@@ -27,13 +27,13 @@
         android:textStyle="bold"
         android:textAlignment="center"
         android:layout_marginTop="5dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tap on '+' to add budget item"
-        android:textColor="#fff"
+        android:text="@string/Set_budget"
         android:textAlignment="center"
-        />
+        android:textColor="#fff" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
