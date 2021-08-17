@@ -3,12 +3,14 @@ package com.nexus.MadBudgetingApp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,18 +33,18 @@ import com.nexus.MadBudgetingApp.R;
 
 import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
+import org.joda.time.Weeks;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-public class DailyAnalyticsActivity extends AppCompatActivity {
+public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
     private Toolbar settingsToolbar;
-
+    private RecyclerView recyclerView;
+    private ProgressBar progress_circular;
+    private ImageView search_error_image;
 
     private FirebaseAuth mAuth;
     private String onlineUserId = "";
@@ -55,21 +57,21 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
     private RelativeLayout linearLayoutCharity,linearLayoutApparel,linearLayoutHealth,linearLayoutPersonalExp,linearLayoutOther, linearLayoutAnalysis;
 
     private AnyChartView anyChartView;
+
     private TextView progress_ratio_transport,progress_ratio_food,progress_ratio_house,progress_ratio_ent,progress_ratio_edu,progress_ratio_cha, progress_ratio_app,progress_ratio_hea,progress_ratio_per,progress_ratio_oth, monthRatioSpending;
     private ImageView status_Image_transport, status_Image_food,status_Image_house,status_Image_ent,status_Image_edu,status_Image_cha,status_Image_app,status_Image_hea,status_Image_per,status_Image_oth, monthRatioSpending_Image;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_daily_analytics);
+        setContentView(R.layout.activity_weekly_nexus_mobile_app);
 
         settingsToolbar = findViewById(R.id.my_Feed_Toolbar);
         setSupportActionBar(settingsToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Today Analytics");
+        getSupportActionBar().setTitle("Week Analytics");
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -77,10 +79,10 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         expensesRef = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
         personalRef = FirebaseDatabase.getInstance().getReference("personal").child(onlineUserId);
 
-
+        progress_circular = findViewById(R.id.progress_circular_feed);
         totalBudgetAmountTextView = findViewById(R.id.totalBudgetAmountTextView);
 
-        //general analytic
+
         monthSpentAmount = findViewById(R.id.monthSpentAmount);
         linearLayoutAnalysis = findViewById(R.id.linearLayoutAnalysis);
         monthRatioSpending = findViewById(R.id.monthRatioSpending);
@@ -109,7 +111,7 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         linearLayoutPersonalExp = findViewById(R.id.linearLayoutPersonalExp);
         linearLayoutOther = findViewById(R.id.linearLayoutOther);
 
-        //textviews
+//textviews
         progress_ratio_transport = findViewById(R.id.progress_ratio_transport);
         progress_ratio_food = findViewById(R.id.progress_ratio_food);
         progress_ratio_house = findViewById(R.id.progress_ratio_house);
@@ -132,8 +134,12 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         status_Image_per = findViewById(R.id.status_Image_per);
         status_Image_oth = findViewById(R.id.status_Image_oth);
 
+
+
+
         //anyChartView
         anyChartView = findViewById(R.id.anyChartView);
+
 
 
         getTotalWeekTransportExpense();
@@ -146,7 +152,7 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         getTotalWeekHealthExpenses();
         getTotalWeekPersonalExpenses();
         getTotalWeekOtherExpenses();
-        getTotalDaySpending();
+        getTotalWeekSpending();
 
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
@@ -164,14 +170,12 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         MutableDateTime epoch = new MutableDateTime();
         epoch.setDate(0); //Set to Epoch time
         DateTime now = new DateTime();
+        Weeks weeks = Weeks.weeksBetween(epoch, now);
 
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        String date = dateFormat.format(cal.getTime());
-        String itemNday = "Transport"+date;
+        String itemNweek = "Transport"+weeks.getWeeks();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        Query query = reference.orderByChild("itemNday").equalTo(itemNday);
+        Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -184,18 +188,19 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsTransportAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("dayTrans").setValue(totalAmount);
+                    personalRef.child("weekTrans").setValue(totalAmount);
 
                 }
                 else {
                     linearLayoutTransport.setVisibility(View.GONE);
+                    personalRef.child("weekTrans").setValue(0);
                 }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DailyAnalyticsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WeeklyAnalyticsNexusMobileApp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -204,13 +209,12 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         MutableDateTime epoch = new MutableDateTime();
         epoch.setDate(0); //Set to Epoch time
         DateTime now = new DateTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        String date = dateFormat.format(cal.getTime());
-        String itemNday = "Food"+date;
+        Weeks weeks = Weeks.weeksBetween(epoch, now);
+
+        String itemNweek = "Food"+weeks.getWeeks();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        Query query = reference.orderByChild("itemNday").equalTo(itemNday);
+        Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -223,16 +227,17 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsFoodAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("dayFood").setValue(totalAmount);
+                    personalRef.child("weekFood").setValue(totalAmount);
                 }else {
                     linearLayoutFood.setVisibility(View.GONE);
+                    personalRef.child("weekFood").setValue(0);
                 }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DailyAnalyticsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WeeklyAnalyticsNexusMobileApp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -240,13 +245,12 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         MutableDateTime epoch = new MutableDateTime();
         epoch.setDate(0); //Set to Epoch time
         DateTime now = new DateTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        String date = dateFormat.format(cal.getTime());
-        String itemNday = "House Expenses"+date;
+        Weeks weeks = Weeks.weeksBetween(epoch, now);
+
+        String itemNweek = "House Expenses"+weeks.getWeeks();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        Query query = reference.orderByChild("itemNday").equalTo(itemNday);
+        Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -259,16 +263,17 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsHouseExpensesAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("dayHouse").setValue(totalAmount);
+                    personalRef.child("weekHouse").setValue(totalAmount);
                 }else {
                     linearLayoutFoodHouse.setVisibility(View.GONE);
+                    personalRef.child("weekHouse").setValue(0);
                 }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DailyAnalyticsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WeeklyAnalyticsNexusMobileApp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -276,13 +281,12 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         MutableDateTime epoch = new MutableDateTime();
         epoch.setDate(0); //Set to Epoch time
         DateTime now = new DateTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        String date = dateFormat.format(cal.getTime());
-        String itemNday = "Entertainment"+date;
+        Weeks weeks = Weeks.weeksBetween(epoch, now);
+
+        String itemNweek = "Entertainment"+weeks.getWeeks();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        Query query = reference.orderByChild("itemNday").equalTo(itemNday);
+        Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -295,16 +299,17 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsEntertainmentAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("dayEnt").setValue(totalAmount);
+                    personalRef.child("weekEnt").setValue(totalAmount);
                 }else {
                     linearLayoutEntertainment.setVisibility(View.GONE);
+                    personalRef.child("weekEnt").setValue(0);
                 }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DailyAnalyticsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WeeklyAnalyticsNexusMobileApp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -312,13 +317,12 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         MutableDateTime epoch = new MutableDateTime();
         epoch.setDate(0); //Set to Epoch time
         DateTime now = new DateTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        String date = dateFormat.format(cal.getTime());
-        String itemNday = "Education"+date;
+        Weeks weeks = Weeks.weeksBetween(epoch, now);
+
+        String itemNweek = "Education"+weeks.getWeeks();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        Query query = reference.orderByChild("itemNday").equalTo(itemNday);
+        Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -331,16 +335,17 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsEducationAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("dayEdu").setValue(totalAmount);
+                    personalRef.child("weekEdu").setValue(totalAmount);
                 }else {
                     linearLayoutEducation.setVisibility(View.GONE);
+                    personalRef.child("weekEdu").setValue(0);
                 }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DailyAnalyticsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WeeklyAnalyticsNexusMobileApp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -348,13 +353,12 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         MutableDateTime epoch = new MutableDateTime();
         epoch.setDate(0); //Set to Epoch time
         DateTime now = new DateTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        String date = dateFormat.format(cal.getTime());
-        String itemNday = "Charity"+date;
+        Weeks weeks = Weeks.weeksBetween(epoch, now);
+
+        String itemNweek = "Charity"+weeks.getWeeks();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        Query query = reference.orderByChild("itemNday").equalTo(itemNday);
+        Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -367,16 +371,17 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsCharityAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("dayCha").setValue(totalAmount);
+                    personalRef.child("weekCha").setValue(totalAmount);
                 }else {
                     linearLayoutCharity.setVisibility(View.GONE);
+                    personalRef.child("weekCha").setValue(0);
                 }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DailyAnalyticsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WeeklyAnalyticsNexusMobileApp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -384,13 +389,12 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         MutableDateTime epoch = new MutableDateTime();
         epoch.setDate(0); //Set to Epoch time
         DateTime now = new DateTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        String date = dateFormat.format(cal.getTime());
-        String itemNday = "Apparel and Services"+date;
+        Weeks weeks = Weeks.weeksBetween(epoch, now);
+
+        String itemNweek = "Apparel and Services"+weeks.getWeeks();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        Query query = reference.orderByChild("itemNday").equalTo(itemNday);
+        Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -403,16 +407,17 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsApparelAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("dayApp").setValue(totalAmount);
+                    personalRef.child("weekApp").setValue(totalAmount);
                 }else {
                     linearLayoutApparel.setVisibility(View.GONE);
+                    personalRef.child("weekApp").setValue(0);
                 }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DailyAnalyticsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WeeklyAnalyticsNexusMobileApp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -420,13 +425,12 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         MutableDateTime epoch = new MutableDateTime();
         epoch.setDate(0); //Set to Epoch time
         DateTime now = new DateTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        String date = dateFormat.format(cal.getTime());
-        String itemNday = "Health"+date;
+        Weeks weeks = Weeks.weeksBetween(epoch, now);
+
+        String itemNweek = "Health"+weeks.getWeeks();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        Query query = reference.orderByChild("itemNday").equalTo(itemNday);
+        Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -439,16 +443,17 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsHealthAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("dayHea").setValue(totalAmount);
+                    personalRef.child("weekHea").setValue(totalAmount);
                 }else {
                     linearLayoutHealth.setVisibility(View.GONE);
+                    personalRef.child("weekHea").setValue(0);
                 }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DailyAnalyticsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WeeklyAnalyticsNexusMobileApp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -456,13 +461,12 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         MutableDateTime epoch = new MutableDateTime();
         epoch.setDate(0); //Set to Epoch time
         DateTime now = new DateTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        String date = dateFormat.format(cal.getTime());
-        String itemNday = "Personal Expenses"+date;
+        Weeks weeks = Weeks.weeksBetween(epoch, now);
+
+        String itemNweek = "Personal Expenses"+weeks.getWeeks();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        Query query = reference.orderByChild("itemNday").equalTo(itemNday);
+        Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -475,16 +479,17 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsPersonalExpensesAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("dayPer").setValue(totalAmount);
+                    personalRef.child("weekPer").setValue(totalAmount);
                 }else {
                     linearLayoutPersonalExp.setVisibility(View.GONE);
+                    personalRef.child("weekPer").setValue(0);
                 }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DailyAnalyticsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WeeklyAnalyticsNexusMobileApp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -492,13 +497,12 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
         MutableDateTime epoch = new MutableDateTime();
         epoch.setDate(0); //Set to Epoch time
         DateTime now = new DateTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        String date = dateFormat.format(cal.getTime());
-        String itemNday = "Other"+date;
+        Weeks weeks = Weeks.weeksBetween(epoch, now);
+
+        String itemNweek = "Other"+weeks.getWeeks();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        Query query = reference.orderByChild("itemNday").equalTo(itemNday);
+        Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -511,26 +515,28 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsOtherAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("dayOther").setValue(totalAmount);
+                    personalRef.child("weekOther").setValue(totalAmount);
                 }else {
                     linearLayoutOther.setVisibility(View.GONE);
+                    personalRef.child("weekOther").setValue(0);
                 }
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DailyAnalyticsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(WeeklyAnalyticsNexusMobileApp.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+    private void getTotalWeekSpending(){
+        MutableDateTime epoch = new MutableDateTime();
+        epoch.setDate(0); //Set to Epoch time
+        DateTime now = new DateTime();
+        Weeks weeks = Weeks.weeksBetween(epoch, now);
 
-    private void getTotalDaySpending(){
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        Calendar cal = Calendar.getInstance();
-        String date = dateFormat.format(cal.getTime());
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        Query query = reference.orderByChild("date").equalTo(date);
+        Query query = reference.orderByChild("week").equalTo(weeks.getWeeks());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -544,11 +550,9 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         totalAmount+=pTotal;
 
                     }
-                    totalBudgetAmountTextView.setText("Total day's spending: Ksh "+ totalAmount);
+                    totalBudgetAmountTextView.setText("Total week's spending: Ksh "+ totalAmount);
                     monthSpentAmount.setText("Total Spent: Ksh "+totalAmount);
-                }
-                else {
-                    totalBudgetAmountTextView.setText("You've not spent today");
+                }else {
                     anyChartView.setVisibility(View.GONE);
                 }
             }
@@ -567,70 +571,70 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                 if (snapshot.exists()){
 
                     int traTotal;
-                    if (snapshot.hasChild("dayTrans")){
-                        traTotal = Integer.parseInt(snapshot.child("dayTrans").getValue().toString());
+                    if (snapshot.hasChild("weekTrans")){
+                        traTotal = Integer.parseInt(snapshot.child("weekTrans").getValue().toString());
                     }else {
                         traTotal = 0;
                     }
 
                     int foodTotal;
-                    if (snapshot.hasChild("dayFood")){
-                        foodTotal = Integer.parseInt(snapshot.child("dayFood").getValue().toString());
+                    if (snapshot.hasChild("weekFood")){
+                        foodTotal = Integer.parseInt(snapshot.child("weekFood").getValue().toString());
                     }else {
                         foodTotal = 0;
                     }
 
                     int houseTotal;
-                    if (snapshot.hasChild("dayHouse")){
-                        houseTotal = Integer.parseInt(snapshot.child("dayHouse").getValue().toString());
+                    if (snapshot.hasChild("weekHouse")){
+                        houseTotal = Integer.parseInt(snapshot.child("weekHouse").getValue().toString());
                     }else {
                         houseTotal = 0;
                     }
 
                     int entTotal;
-                    if (snapshot.hasChild("dayEnt")){
-                        entTotal = Integer.parseInt(snapshot.child("dayEnt").getValue().toString());
+                    if (snapshot.hasChild("weekEnt")){
+                        entTotal = Integer.parseInt(snapshot.child("weekEnt").getValue().toString());
                     }else {
                         entTotal=0;
                     }
 
                     int eduTotal;
-                    if (snapshot.hasChild("dayEdu")){
-                        eduTotal = Integer.parseInt(snapshot.child("dayEdu").getValue().toString());
+                    if (snapshot.hasChild("weekEdu")){
+                        eduTotal = Integer.parseInt(snapshot.child("weekEdu").getValue().toString());
                     }else {
                         eduTotal = 0;
                     }
 
                     int chaTotal;
-                    if (snapshot.hasChild("dayCha")){
-                        chaTotal = Integer.parseInt(snapshot.child("dayCha").getValue().toString());
+                    if (snapshot.hasChild("weekCha")){
+                        chaTotal = Integer.parseInt(snapshot.child("weekCha").getValue().toString());
                     }else {
                         chaTotal = 0;
                     }
 
                     int appTotal;
-                    if (snapshot.hasChild("dayApp")){
-                        appTotal = Integer.parseInt(snapshot.child("dayApp").getValue().toString());
+                    if (snapshot.hasChild("weekApp")){
+                        appTotal = Integer.parseInt(snapshot.child("weekApp").getValue().toString());
                     }else {
                         appTotal = 0;
                     }
 
                     int heaTotal;
-                    if (snapshot.hasChild("dayHea")){
-                        heaTotal = Integer.parseInt(snapshot.child("dayHea").getValue().toString());
+                    if (snapshot.hasChild("weekHea")){
+                        heaTotal = Integer.parseInt(snapshot.child("weekHea").getValue().toString());
                     }else {
                         heaTotal =0;
                     }
 
                     int perTotal;
-                    if (snapshot.hasChild("dayPer")){
-                        perTotal = Integer.parseInt(snapshot.child("dayPer").getValue().toString());
+                    if (snapshot.hasChild("weekPer")){
+                        perTotal = Integer.parseInt(snapshot.child("weekPer").getValue().toString());
                     }else {
                         perTotal=0;
                     }
                     int othTotal;
-                    if (snapshot.hasChild("dayOther")){
-                        othTotal = Integer.parseInt(snapshot.child("dayOther").getValue().toString());
+                    if (snapshot.hasChild("weekOther")){
+                        othTotal = Integer.parseInt(snapshot.child("weekOther").getValue().toString());
                     }else {
                         othTotal = 0;
                     }
@@ -651,7 +655,7 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
 
                     pie.data(data);
 
-                    pie.title("Daily Analytics");
+                    pie.title("Week Analytics");
 
                     pie.labels().position("outside");
 
@@ -668,93 +672,95 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                     anyChartView.setChart(pie);
                 }
                 else {
-                    Toast.makeText(DailyAnalyticsActivity.this,"Child does not exist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WeeklyAnalyticsNexusMobileApp.this,"Child does not exist", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(DailyAnalyticsActivity.this,"Child does not exist", Toast.LENGTH_SHORT).show();
+
             }
         });
     }
+
     private void setStatusAndImageResource(){
         personalRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists() ){
+
                     float traTotal;
-                    if (snapshot.hasChild("dayTrans")){
-                        traTotal = Integer.parseInt(snapshot.child("dayTrans").getValue().toString());
+                    if (snapshot.hasChild("weekTrans")){
+                        traTotal = Integer.parseInt(snapshot.child("weekTrans").getValue().toString());
                     }else {
                         traTotal = 0;
                     }
 
                     float foodTotal;
-                    if (snapshot.hasChild("dayFood")){
-                        foodTotal = Integer.parseInt(snapshot.child("dayFood").getValue().toString());
+                    if (snapshot.hasChild("weekFood")){
+                        foodTotal = Integer.parseInt(snapshot.child("weekFood").getValue().toString());
                     }else {
                         foodTotal = 0;
                     }
 
                     float houseTotal;
-                    if (snapshot.hasChild("dayHouse")){
-                        houseTotal = Integer.parseInt(snapshot.child("dayHouse").getValue().toString());
+                    if (snapshot.hasChild("weekHouse")){
+                        houseTotal = Integer.parseInt(snapshot.child("weekHouse").getValue().toString());
                     }else {
                         houseTotal = 0;
                     }
 
                     float entTotal;
-                    if (snapshot.hasChild("dayEnt")){
-                        entTotal = Integer.parseInt(snapshot.child("dayEnt").getValue().toString());
+                    if (snapshot.hasChild("weekEnt")){
+                        entTotal = Integer.parseInt(snapshot.child("weekEnt").getValue().toString());
                     }else {
                         entTotal=0;
                     }
 
                     float eduTotal;
-                    if (snapshot.hasChild("dayEdu")){
-                        eduTotal = Integer.parseInt(snapshot.child("dayEdu").getValue().toString());
+                    if (snapshot.hasChild("weekEdu")){
+                        eduTotal = Integer.parseInt(snapshot.child("weekEdu").getValue().toString());
                     }else {
                         eduTotal = 0;
                     }
 
                     float chaTotal;
-                    if (snapshot.hasChild("dayCha")){
-                        chaTotal = Integer.parseInt(snapshot.child("dayCha").getValue().toString());
+                    if (snapshot.hasChild("weekCha")){
+                        chaTotal = Integer.parseInt(snapshot.child("weekCha").getValue().toString());
                     }else {
                         chaTotal = 0;
                     }
 
                     float appTotal;
-                    if (snapshot.hasChild("dayApp")){
-                        appTotal = Integer.parseInt(snapshot.child("dayApp").getValue().toString());
+                    if (snapshot.hasChild("weekApp")){
+                        appTotal = Integer.parseInt(snapshot.child("weekApp").getValue().toString());
                     }else {
                         appTotal = 0;
                     }
 
                     float heaTotal;
-                    if (snapshot.hasChild("dayHea")){
-                        heaTotal = Integer.parseInt(snapshot.child("dayHea").getValue().toString());
+                    if (snapshot.hasChild("weekHea")){
+                        heaTotal = Integer.parseInt(snapshot.child("weekHea").getValue().toString());
                     }else {
                         heaTotal =0;
                     }
 
                     float perTotal;
-                    if (snapshot.hasChild("dayPer")){
-                        perTotal = Integer.parseInt(snapshot.child("dayPer").getValue().toString());
+                    if (snapshot.hasChild("weekPer")){
+                        perTotal = Integer.parseInt(snapshot.child("weekPer").getValue().toString());
                     }else {
                         perTotal=0;
                     }
                     float othTotal;
-                    if (snapshot.hasChild("dayOther")){
-                        othTotal = Integer.parseInt(snapshot.child("dayOther").getValue().toString());
+                    if (snapshot.hasChild("weekOther")){
+                        othTotal = Integer.parseInt(snapshot.child("weekOther").getValue().toString());
                     }else {
                         othTotal = 0;
                     }
 
                     float monthTotalSpentAmount;
-                    if (snapshot.hasChild("today")){
-                        monthTotalSpentAmount = Integer.parseInt(snapshot.child("today").getValue().toString());
+                    if (snapshot.hasChild("week")){
+                        monthTotalSpentAmount = Integer.parseInt(snapshot.child("week").getValue().toString());
                     }else {
                         monthTotalSpentAmount = 0;
                     }
@@ -763,87 +769,88 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
 
 
 
-                    //GETTING RATIOS
+
+
+
+
+
+
                     float traRatio;
-                    if (snapshot.hasChild("dayTransRatio")){
-                        traRatio = Integer.parseInt(snapshot.child("dayTransRatio").getValue().toString());
+                    if (snapshot.hasChild("weekTransRatio")){
+                        traRatio = Integer.parseInt(snapshot.child("weekTransRatio").getValue().toString());
                     }else {
                         traRatio=0;
                     }
 
                     float foodRatio;
-                    if (snapshot.hasChild("dayFoodRatio")){
-                        foodRatio = Integer.parseInt(snapshot.child("dayFoodRatio").getValue().toString());
+                    if (snapshot.hasChild("weekFoodRatio")){
+                        foodRatio = Integer.parseInt(snapshot.child("weekFoodRatio").getValue().toString());
                     }else {
                         foodRatio = 0;
                     }
 
                     float houseRatio;
-                    if (snapshot.hasChild("dayHouseRatio")){
-                        houseRatio = Integer.parseInt(snapshot.child("dayHouseRatio").getValue().toString());
+                    if (snapshot.hasChild("weekHouseRatio")){
+                        houseRatio = Integer.parseInt(snapshot.child("weekHouseRatio").getValue().toString());
                     }else {
                         houseRatio = 0;
                     }
 
                     float entRatio;
-                    if (snapshot.hasChild("dayEntRatio")){
-                        entRatio= Integer.parseInt(snapshot.child("dayEntRatio").getValue().toString());
+                    if (snapshot.hasChild("weekEntRatio")){
+                        entRatio= Integer.parseInt(snapshot.child("weekEntRatio").getValue().toString());
                     }else {
                         entRatio = 0;
                     }
 
                     float eduRatio;
-                    if (snapshot.hasChild("dayEduRatio")){
-                        eduRatio= Integer.parseInt(snapshot.child("dayEduRatio").getValue().toString());
+                    if (snapshot.hasChild("weekEduRatio")){
+                        eduRatio= Integer.parseInt(snapshot.child("weekEduRatio").getValue().toString());
                     }else {
                         eduRatio=0;
                     }
 
                     float chaRatio;
-                    if (snapshot.hasChild("dayCharRatio")){
-                        chaRatio = Integer.parseInt(snapshot.child("dayCharRatio").getValue().toString());
+                    if (snapshot.hasChild("weekCharRatio")){
+                        chaRatio = Integer.parseInt(snapshot.child("weekCharRatio").getValue().toString());
                     }else {
                         chaRatio = 0;
                     }
 
                     float appRatio;
-                    if (snapshot.hasChild("dayAppRatio")){
-                        appRatio = Integer.parseInt(snapshot.child("dayAppRatio").getValue().toString());
+                    if (snapshot.hasChild("weekAppRatio")){
+                        appRatio = Integer.parseInt(snapshot.child("weekAppRatio").getValue().toString());
                     }else {
                         appRatio =0;
                     }
 
                     float heaRatio;
-                    if (snapshot.hasChild("dayHealthRatio")){
-                        heaRatio = Integer.parseInt(snapshot.child("dayHealthRatio").getValue().toString());
+                    if (snapshot.hasChild("weekHealthRatio")){
+                        heaRatio = Integer.parseInt(snapshot.child("weekHealthRatio").getValue().toString());
                     }else {
                         heaRatio=0;
                     }
 
                     float perRatio;
-                    if (snapshot.hasChild("dayPerRatio")){
-                        perRatio = Integer.parseInt(snapshot.child("dayPerRatio").getValue().toString());
+                    if (snapshot.hasChild("weekPerRatio")){
+                        perRatio = Integer.parseInt(snapshot.child("weekPerRatio").getValue().toString());
                     }else {
                         perRatio = 0;
                     }
 
                     float othRatio;
-                    if (snapshot.hasChild("dayOtherRatio")){
-                        othRatio = Integer.parseInt(snapshot.child("dayOtherRatio").getValue().toString());
+                    if (snapshot.hasChild("weekOtherRatio")){
+                        othRatio = Integer.parseInt(snapshot.child("weekOtherRatio").getValue().toString());
                     }else {
                         othRatio=0;
                     }
 
                     float monthTotalSpentAmountRatio;
-                    if (snapshot.hasChild("dailyBudget")){
-                        monthTotalSpentAmountRatio = Integer.parseInt(snapshot.child("dailyBudget").getValue().toString());
+                    if (snapshot.hasChild("weeklyBudget")){
+                        monthTotalSpentAmountRatio = Integer.parseInt(snapshot.child("weeklyBudget").getValue().toString());
                     }else {
                         monthTotalSpentAmountRatio =0;
                     }
-
-
-
-
 
                     float monthPercent = (monthTotalSpentAmount/monthTotalSpentAmountRatio)*100;
                     if (monthPercent<50){
@@ -857,6 +864,8 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                         monthRatioSpending_Image.setImageResource(R.drawable.red);
 
                     }
+
+
 
                     float transportPercent = (traTotal/traRatio)*100;
                     if (transportPercent<50){
@@ -995,7 +1004,7 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
 
                 }
                 else {
-                    Toast.makeText(DailyAnalyticsActivity.this, "setStatusAndImageResource Errors", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WeeklyAnalyticsNexusMobileApp.this, "setStatusAndImageResource Errors", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -1017,4 +1026,5 @@ public class DailyAnalyticsActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

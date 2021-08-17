@@ -49,7 +49,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-public class TodaySpendingActivity extends AppCompatActivity {
+public class TodaySpendingNexusMobileApp extends AppCompatActivity {
 
     private Toolbar settingsToolbar;
     private RecyclerView recyclerView;
@@ -71,7 +71,7 @@ public class TodaySpendingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_today_spending);
+        setContentView(R.layout.activity_today_spending_nexus_mobile_app);
 
         settingsToolbar = findViewById(R.id.my_Feed_Toolbar);
         setSupportActionBar(settingsToolbar);
@@ -99,7 +99,7 @@ public class TodaySpendingActivity extends AppCompatActivity {
         search_error_image = findViewById(R.id.search_error_image);
 
         myDataList = new ArrayList<>();
-        todayItemsAdapter = new TodayItemsAdapter(TodaySpendingActivity.this, myDataList);
+        todayItemsAdapter = new TodayItemsAdapter(TodaySpendingNexusMobileApp.this, myDataList);
         recyclerView.setAdapter(todayItemsAdapter);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +153,7 @@ public class TodaySpendingActivity extends AppCompatActivity {
         AlertDialog.Builder myDialog = new AlertDialog.Builder(this);
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View myView = inflater.inflate(R.layout.input_layout, null);
+        View myView = inflater.inflate(R.layout.input_layout_nexus_mobile_app, null);
 
         myDialog.setView(myView);
 
@@ -192,7 +192,7 @@ public class TodaySpendingActivity extends AppCompatActivity {
                     return;
                 }
                 if (budgetItem.equalsIgnoreCase("select item")){
-                    Toast.makeText(TodaySpendingActivity.this, "Please select a valid item", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TodaySpendingNexusMobileApp.this, "Please select a valid item", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     loader.setTitle("Adding Item");
@@ -220,9 +220,9 @@ public class TodaySpendingActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){
-                                Toast.makeText(TodaySpendingActivity.this, "Item added successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TodaySpendingNexusMobileApp.this, "Item added successfully", Toast.LENGTH_SHORT).show();
                             }else {
-                                Toast.makeText(TodaySpendingActivity.this, "Failed to add Item", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TodaySpendingNexusMobileApp.this, "Failed to add Item", Toast.LENGTH_SHORT).show();
                             }
                             loader.dismiss();
                         }

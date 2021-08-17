@@ -27,7 +27,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class RegistrationNexusMobileApp extends AppCompatActivity {
 
     private TextView regPageQuestion;
     private TextInputEditText regEmail, regPassword;
@@ -42,7 +42,7 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_registration_nexus_mobile_app);
 
         regEmail = findViewById(R.id.regEmail);
         regPassword = findViewById(R.id.regPassword);
@@ -54,7 +54,7 @@ public class RegistrationActivity extends AppCompatActivity {
         regPageQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                Intent intent = new Intent(RegistrationNexusMobileApp.this, LoginNexusMobileApp.class);
                 startActivity(intent);
             }
         });
@@ -108,20 +108,20 @@ public class RegistrationActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()){
-                                    Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(RegistrationNexusMobileApp.this, MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                     finish();
-                                    Toast.makeText(RegistrationActivity.this, "registration success", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistrationNexusMobileApp.this, "registration success", Toast.LENGTH_SHORT).show();
                                 }else {
-                                    Toast.makeText(RegistrationActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegistrationNexusMobileApp.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
 
                     }
                     else {
-                        Toast.makeText(RegistrationActivity.this, "Sign up process failed, please try again "+task.getException(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegistrationNexusMobileApp.this, "Sign up process failed, please try again "+task.getException(), Toast.LENGTH_LONG).show();
                     }
                     loader.dismiss();
 

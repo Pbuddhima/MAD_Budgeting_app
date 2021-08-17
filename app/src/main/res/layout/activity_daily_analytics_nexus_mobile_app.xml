@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#0000ff"
-    tools:context=".Activities.DailyAnalyticsActivity">
+    tools:context=".Activities.DailyAnalyticsNexusMobileApp">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_Feed_Toolbar"

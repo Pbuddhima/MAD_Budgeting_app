@@ -47,7 +47,7 @@ public class TodayItemsAdapter extends RecyclerView.Adapter<TodayItemsAdapter.Vi
     @NonNull
     @Override
     public TodayItemsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.retrieve_layout,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.retrieve_layout_nexus_mobile_app,parent,false);
         return new TodayItemsAdapter.ViewHolder(view);
     }
 
@@ -143,7 +143,7 @@ public class TodayItemsAdapter extends RecyclerView.Adapter<TodayItemsAdapter.Vi
     private void updateData() {
         AlertDialog.Builder myDialog = new AlertDialog.Builder(mContext);
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View mView = inflater.inflate(R.layout.update_layout, null);
+        View mView = inflater.inflate(R.layout.update_layout_nexus_mobile_app, null);
 
         myDialog.setView(mView);
 

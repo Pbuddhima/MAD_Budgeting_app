@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class WeekSpendingActivity extends AppCompatActivity {
+public class WeekSpendingNexusMobileApp extends AppCompatActivity {
 
     private Toolbar settingsToolbar;
     private RecyclerView recyclerView;
@@ -57,7 +57,7 @@ public class WeekSpendingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_week_spending);
+        setContentView(R.layout.activity_week_spending_nexus_mobile_app);
 
         settingsToolbar = findViewById(R.id.my_Feed_Toolbar);
         setSupportActionBar(settingsToolbar);
@@ -83,7 +83,7 @@ public class WeekSpendingActivity extends AppCompatActivity {
         search_error_image = findViewById(R.id.search_error_image);
 
         myDataList = new ArrayList<>();
-        weekItemsAdapter = new WeekItemsAdapter(WeekSpendingActivity.this, myDataList);
+        weekItemsAdapter = new WeekItemsAdapter(WeekSpendingNexusMobileApp.this, myDataList);
         recyclerView.setAdapter(weekItemsAdapter);
 
         if (getIntent().getExtras()!= null){

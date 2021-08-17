@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         weekCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, WeekSpendingActivity.class);
+                Intent intent = new Intent(MainActivity.this, WeekSpendingNexusMobileApp.class);
                 intent.putExtra("type", "week");
                 startActivity(intent);
             }
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         monthCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, WeekSpendingActivity.class);
+                Intent intent = new Intent(MainActivity.this, WeekSpendingNexusMobileApp.class);
                 intent.putExtra("type", "month");
                 startActivity(intent);
             }
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         aboutCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+                Intent intent = new Intent(MainActivity.this, HistoryNexusMobileApp.class);
                 startActivity(intent);
             }
         });
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder myDialog = new AlertDialog.Builder(this);
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View myView = inflater.inflate(R.layout.input_layout, null);
+        View myView = inflater.inflate(R.layout.input_layout_nexus_mobile_app, null);
 
         myDialog.setView(myView);
 
@@ -482,15 +482,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToSetBudgetActivity(){
-        Intent intent = new Intent(MainActivity.this, SetBudgetActivity.class);
+        Intent intent = new Intent(MainActivity.this, SetBudgetNexusMobileApp.class);
         startActivity(intent);
     }
     private void sendUserToTodaySpendingActicity() {
-        Intent intent = new Intent(MainActivity.this, TodaySpendingActivity.class);
+        Intent intent = new Intent(MainActivity.this, TodaySpendingNexusMobileApp.class);
         startActivity(intent);
     }
     private void sendUserToChooseAnalyticsActivity(){
-        Intent intent = new Intent(MainActivity.this, SelectAnalyticsActivity.class);
+        Intent intent = new Intent(MainActivity.this, SelectAnalyticsNexusMobileApp.class);
         startActivity(intent);
     }
 
@@ -505,10 +505,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.account) {
-            Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+            Intent intent = new Intent(MainActivity.this, AccountNexusMobileApp.class);
             startActivity(intent);
         }else if (item.getItemId() == R.id.aboutApp){
-            Intent intent = new Intent(MainActivity.this, AboutAppActivity.class);
+            Intent intent = new Intent(MainActivity.this, AboutNexusMobileApp.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

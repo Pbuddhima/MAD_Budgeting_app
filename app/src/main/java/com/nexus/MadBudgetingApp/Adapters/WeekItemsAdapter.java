@@ -29,7 +29,7 @@ public class WeekItemsAdapter extends RecyclerView.Adapter<WeekItemsAdapter.View
     @NonNull
     @Override
     public WeekItemsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.retrieve_layout,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.retrieve_layout_nexus_mobile_app,parent,false);
         return new WeekItemsAdapter.ViewHolder(view);
     }
 

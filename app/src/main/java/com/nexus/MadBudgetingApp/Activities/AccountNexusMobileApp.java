@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nexus.MadBudgetingApp.R;
 
-public class AccountActivity extends AppCompatActivity {
+public class AccountNexusMobileApp extends AppCompatActivity {
 
     private Toolbar settingsToolbar;
     private TextView loggedInOn,deviceName, deviceModel, osVersion,apiLevel, userEmail;
@@ -37,7 +37,7 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_account);
+        setContentView(R.layout.activity_accountNexusMobileApp);
 
         settingsToolbar = findViewById(R.id.my_Feed_Toolbar);
         setSupportActionBar(settingsToolbar);
@@ -77,7 +77,7 @@ public class AccountActivity extends AppCompatActivity {
                     loggedInOn.setText("Logged in on: "+loggedIndate);
 
                 }else {
-                    Toast.makeText(AccountActivity.this, "Details Unavailable", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccountNexusMobileApp.this, "Details Unavailable", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -95,14 +95,14 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                new AlertDialog.Builder(AccountActivity.this)
+                new AlertDialog.Builder(AccountNexusMobileApp.this)
                         .setTitle("Students Budgeting App")
                         .setMessage("Are you sure you want to exit?")
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 FirebaseAuth.getInstance().signOut();
-                                Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
+                                Intent intent = new Intent(AccountNexusMobileApp.this, LoginNexusMobileApp.class);
                                 startActivity( intent);
                                 finish();
                             }

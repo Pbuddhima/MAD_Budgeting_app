@@ -9,21 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.AboutAppActivity"></activity>
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.AccountActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.SetBudgetActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.ForgotPasswordActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.MonthlyAnalyticsActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.WeeklyAnalyticsActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.DailyAnalyticsActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.SelectAnalyticsActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.HistoryActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.MonthSpendingActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.WeekSpendingActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.TodaySpendingActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.RegistrationActivity" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.AboutNexusMobileApp"></activity>
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.AccountNexusMobileApp" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.SetBudgetNexusMobileApp" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.ForgotPasswordNexusMobileApp" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.MonthlyAnalyticsNexusMobileApp" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.WeeklyAnalyticsNexusMobileApp" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.DailyAnalyticsNexusMobileApp" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.SelectAnalyticsNexusMobileApp" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.HistoryNexusMobileApp" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.MonthSpendingNexusMobileApp" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.WeekSpendingNexusMobileApp" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.TodaySpendingNexusMobileApp" />
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.RegistrationNexusMobileApp" />
         <activity android:name="com.nexus.MadBudgetingApp.Activities.MainActivity" />
-        <activity android:name="com.nexus.MadBudgetingApp.Activities.LoginActivity">
+        <activity android:name="com.nexus.MadBudgetingApp.Activities.LoginNexusMobileApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

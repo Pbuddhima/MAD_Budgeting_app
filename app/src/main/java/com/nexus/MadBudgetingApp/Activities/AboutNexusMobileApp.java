@@ -12,7 +12,7 @@ import android.widget.Button;
 
 import com.nexus.MadBudgetingApp.R;
 
-public class AboutAppActivity extends AppCompatActivity {
+public class AboutNexusMobileApp extends AppCompatActivity {
 
     private Toolbar settingsToolbar;
     private Button backBtn;
@@ -21,7 +21,7 @@ public class AboutAppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_about_app);
+        setContentView(R.layout.activity_AboutNexusMobileApp);
 
         settingsToolbar = findViewById(R.id.my_Feed_Toolbar);
         setSupportActionBar(settingsToolbar);
@@ -34,7 +34,7 @@ public class AboutAppActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AboutAppActivity.this, MainActivity.class);
+                Intent intent = new Intent(AboutNexusMobileApp.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.nexus.MadBudgetingApp.R;
 
-public class MonthSpendingActivity extends AppCompatActivity {
+public class MonthSpendingNexusMobileApp extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_month_spending);
+        setContentView(R.layout.activity_month_spending_nexus_mobile_app);
     }
 }

@@ -48,7 +48,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
 
-public class SetBudgetActivity extends AppCompatActivity {
+public class SetBudgetNexusMobileApp extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView totalBudgetAmountTextView;
@@ -70,7 +70,7 @@ public class SetBudgetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_set_budget);
+        setContentView(R.layout.activity_set_budget_nexus_mobile_app);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -156,7 +156,7 @@ public class SetBudgetActivity extends AppCompatActivity {
         AlertDialog.Builder myDialog = new AlertDialog.Builder(this);
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View myView = inflater.inflate(R.layout.input_layout, null);
+        View myView = inflater.inflate(R.layout.input_layout_nexus_mobile_app, null);
 
         myDialog.setView(myView);
 
@@ -185,7 +185,7 @@ public class SetBudgetActivity extends AppCompatActivity {
                     return;
                 }
                 if (budgetItem.equalsIgnoreCase("select item")){
-                    Toast.makeText(SetBudgetActivity.this, "Please select a valid item", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SetBudgetNexusMobileApp.this, "Please select a valid item", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     loader.setTitle("Adding Budget Item");
@@ -213,9 +213,9 @@ public class SetBudgetActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){
-                                Toast.makeText(SetBudgetActivity.this, "Budget Item added successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SetBudgetNexusMobileApp.this, "Budget Item added successfully", Toast.LENGTH_SHORT).show();
                             }else {
-                                Toast.makeText(SetBudgetActivity.this, "Failed to add Budget Item", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SetBudgetNexusMobileApp.this, "Failed to add Budget Item", Toast.LENGTH_SHORT).show();
                             }
                             loader.dismiss();
                         }
@@ -307,7 +307,7 @@ public class SetBudgetActivity extends AppCompatActivity {
             @NonNull
             @Override
             public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.retrieve_layout,parent,false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.retrieve_layout_nexus_mobile_app,parent,false);
                 return new myViewHolder(view);
             }
         };
@@ -353,7 +353,7 @@ public class SetBudgetActivity extends AppCompatActivity {
 
         AlertDialog.Builder myDialog = new AlertDialog.Builder(this);
         LayoutInflater inflater = LayoutInflater.from(this);
-        View mView = inflater.inflate(R.layout.update_layout, null);
+        View mView = inflater.inflate(R.layout.update_layout_nexus_mobile_app, null);
 
         myDialog.setView(mView);
 
@@ -400,9 +400,9 @@ public class SetBudgetActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(SetBudgetActivity.this, "Updated successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SetBudgetNexusMobileApp.this, "Updated successfully", Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(SetBudgetActivity.this, "failed to update.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SetBudgetNexusMobileApp.this, "failed to update.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -420,9 +420,9 @@ public class SetBudgetActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(SetBudgetActivity.this, "Deleted successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SetBudgetNexusMobileApp.this, "Deleted successfully", Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(SetBudgetActivity.this, "Failed to delete", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SetBudgetNexusMobileApp.this, "Failed to delete", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

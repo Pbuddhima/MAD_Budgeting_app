@@ -12,7 +12,7 @@ import android.view.WindowManager;
 
 import com.nexus.MadBudgetingApp.R;
 
-public class SelectAnalyticsActivity extends AppCompatActivity {
+public class SelectAnalyticsNexusMobileApp extends AppCompatActivity {
 
     private Toolbar settingsToolbar;
 
@@ -22,7 +22,7 @@ public class SelectAnalyticsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_select_analytics);
+        setContentView(R.layout.activity_select_analytics_nexus_mobile_app);
 
         settingsToolbar = findViewById(R.id.my_Feed_Toolbar);
         setSupportActionBar(settingsToolbar);
@@ -40,7 +40,7 @@ public class SelectAnalyticsActivity extends AppCompatActivity {
         todayCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SelectAnalyticsActivity.this, DailyAnalyticsActivity.class);
+                Intent intent = new Intent(SelectAnalyticsNexusMobileApp.this, DailyAnalyticsNexusMobileApp.class);
                 startActivity(intent);
             }
         });
@@ -48,7 +48,7 @@ public class SelectAnalyticsActivity extends AppCompatActivity {
         weekCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SelectAnalyticsActivity.this, WeeklyAnalyticsActivity.class);
+                Intent intent = new Intent(SelectAnalyticsNexusMobileApp.this, WeeklyAnalyticsNexusMobileApp.class);
                 startActivity(intent);
             }
         });
@@ -56,7 +56,7 @@ public class SelectAnalyticsActivity extends AppCompatActivity {
         monthCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SelectAnalyticsActivity.this, MonthlyAnalyticsActivity.class);
+                Intent intent = new Intent(SelectAnalyticsNexusMobileApp.this, MonthlyAnalyticsNexusMobileApp.class);
                 startActivity(intent);
             }
         });

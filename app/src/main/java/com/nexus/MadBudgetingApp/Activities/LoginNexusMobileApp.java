@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.nexus.MadBudgetingApp.R;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginNexusMobileApp extends AppCompatActivity {
 
     private TextView loginPageQuestion, forgot_password, admin;
     private TextInputEditText loginEmail, loginPassword;
@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_nexus_mobile_app);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = mAuth.getCurrentUser();
                 if (user!= null){
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent intent = new Intent(LoginNexusMobileApp.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         loginPageQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+                Intent intent = new Intent(LoginNexusMobileApp.this, RegistrationNexusMobileApp.class);
                 startActivity(intent);
             }
         });
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         forgot_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                Intent intent = new Intent(LoginNexusMobileApp.this, ForgotPasswordNexusMobileApp.class);
                 startActivity(intent);
             }
         });
@@ -104,15 +104,15 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    Intent intent = new Intent(LoginNexusMobileApp.this, MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
                                     finish();
-                                    Toast.makeText(LoginActivity.this, "Welcome back!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginNexusMobileApp.this, "Welcome back!", Toast.LENGTH_SHORT).show();
 
                             }
                             else {
-                                Toast.makeText(LoginActivity.this, "Sign in process failed, please try again "+task.getException(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginNexusMobileApp.this, "Sign in process failed, please try again "+task.getException(), Toast.LENGTH_LONG).show();
                             }
                             loader.dismiss();
 

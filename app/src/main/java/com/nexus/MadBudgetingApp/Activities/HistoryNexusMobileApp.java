@@ -32,7 +32,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-public class HistoryActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class HistoryNexusMobileApp extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private RecyclerView recyclerView;
 
@@ -53,7 +53,7 @@ public class HistoryActivity extends AppCompatActivity implements DatePickerDial
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_history);
+        setContentView(R.layout.activity_history_nexus_mobile_app);
 
         settingsToolbar = findViewById(R.id.my_Feed_Toolbar);
         setSupportActionBar(settingsToolbar);
@@ -76,7 +76,7 @@ public class HistoryActivity extends AppCompatActivity implements DatePickerDial
         recyclerView.setLayoutManager(layoutManager);
 
         myDataList = new ArrayList<>();
-        todayItemsAdapter = new TodayItemsAdapter(HistoryActivity.this, myDataList);
+        todayItemsAdapter = new TodayItemsAdapter(HistoryNexusMobileApp.this, myDataList);
         recyclerView.setAdapter(todayItemsAdapter);
 
         search.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +146,7 @@ public class HistoryActivity extends AppCompatActivity implements DatePickerDial
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(HistoryActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(HistoryNexusMobileApp.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
