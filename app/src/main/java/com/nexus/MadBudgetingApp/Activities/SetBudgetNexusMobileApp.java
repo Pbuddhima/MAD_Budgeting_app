@@ -55,7 +55,7 @@ public class SetBudgetNexusMobileApp extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth firebaseAuth;
     private DatabaseReference budgetRef, personalRef;
     private String onlineUserID = "";
 
@@ -88,7 +88,7 @@ public class SetBudgetNexusMobileApp extends AppCompatActivity {
 
         fab = findViewById(R.id.fab);
 
-        mAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         onlineUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         budgetRef = FirebaseDatabase.getInstance().getReference("budget").child(onlineUserID);
         personalRef = FirebaseDatabase.getInstance().getReference("personal").child(onlineUserID);

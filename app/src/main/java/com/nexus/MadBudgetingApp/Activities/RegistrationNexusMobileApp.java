@@ -29,14 +29,14 @@ import java.util.HashMap;
 
 public class RegistrationNexusMobileApp extends AppCompatActivity {
 
-    private TextView regPageQuestion;
+    private TextView regQuestion;
     private TextInputEditText regEmail, regPassword;
     private Button regBtn;
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
-    private ProgressDialog loader;
-    private DatabaseReference reference;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private ProgressDialog progressDialog;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +47,11 @@ public class RegistrationNexusMobileApp extends AppCompatActivity {
         regEmail = findViewById(R.id.regEmail);
         regPassword = findViewById(R.id.regPassword);
         regBtn = findViewById(R.id.regBtn);
-        regPageQuestion = findViewById(R.id.regPageQuestion);
-        mAuth = FirebaseAuth.getInstance();
-        loader = new ProgressDialog(this);
+        regQuestion = findViewById(R.id.regPageQuestion);
+        firebaseAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
 
-        regPageQuestion.setOnClickListener(new View.OnClickListener() {
+        regQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(RegistrationNexusMobileApp.this, LoginNexusMobileApp.class);
@@ -86,11 +86,11 @@ public class RegistrationNexusMobileApp extends AppCompatActivity {
             regPassword.setError("Password is required!");
             return;
         }else {
-            loader.setMessage("Registration in progress, please wait...");
-            loader.setCanceledOnTouchOutside(false);
-            loader.show();
+            progressDialog.setMessage("Registration in progress, please wait...");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
 
-            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
@@ -101,10 +101,10 @@ public class RegistrationNexusMobileApp extends AppCompatActivity {
                         hashMap.put("Device Name", deviceName);
                         hashMap.put("Model", model);
                         hashMap.put("logedInOn", date);
-                        hashMap.put("email", mAuth.getCurrentUser().getEmail());
+                        hashMap.put("email", firebaseAuth.getCurrentUser().getEmail());
 
-                        reference = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
-                        reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(firebaseAuth.getCurrentUser().getUid());
+                        databaseReference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()){
@@ -123,7 +123,7 @@ public class RegistrationNexusMobileApp extends AppCompatActivity {
                     else {
                         Toast.makeText(RegistrationNexusMobileApp.this, "Sign up process failed, please try again "+task.getException(), Toast.LENGTH_LONG).show();
                     }
-                    loader.dismiss();
+                    progressDialog.dismiss();
 
                 }
             });

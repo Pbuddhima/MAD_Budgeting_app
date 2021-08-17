@@ -23,15 +23,15 @@ import com.nexus.MadBudgetingApp.R;
 
 public class LoginNexusMobileApp extends AppCompatActivity {
 
-    private TextView loginPageQuestion, forgot_password, admin;
+    private TextView loginQuestion, forgotPassword, admin;
     private TextInputEditText loginEmail, loginPassword;
-    private Button loginBtn;
+    private Button loginbtn;
 
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
-    private ProgressDialog loader;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private ProgressDialog progressDialog;
 
-    private FirebaseAuth.AuthStateListener authStateListener;
+    private FirebaseAuth.AuthStateListener stateListener;
 
 
     @Override
@@ -40,12 +40,12 @@ public class LoginNexusMobileApp extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login_nexus_mobile_app);
 
-        mAuth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        authStateListener = new FirebaseAuth.AuthStateListener() {
+        stateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = mAuth.getCurrentUser();
+                FirebaseUser user = LoginNexusMobileApp.this.firebaseAuth.getCurrentUser();
                 if (user!= null){
                     Intent intent = new Intent(LoginNexusMobileApp.this, MainActivity.class);
                     startActivity(intent);
@@ -55,9 +55,9 @@ public class LoginNexusMobileApp extends AppCompatActivity {
         };
 
 
-        loginPageQuestion = findViewById(R.id.loginPageQuestion);
+        loginQuestion = findViewById(R.id.loginPageQuestion);
 
-        loginPageQuestion.setOnClickListener(new View.OnClickListener() {
+        loginQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginNexusMobileApp.this, RegistrationNexusMobileApp.class);
@@ -66,13 +66,13 @@ public class LoginNexusMobileApp extends AppCompatActivity {
         });
 
 
-        forgot_password = findViewById(R.id.forgot_password);
+        forgotPassword = findViewById(R.id.forgot_password);
         loginEmail = findViewById(R.id.loginEmail);
         loginPassword = findViewById(R.id.loginPassword);
-        loginBtn = findViewById(R.id.loginBtn);
-        loader = new ProgressDialog(this);
+        loginbtn = findViewById(R.id.loginBtn);
+        progressDialog = new ProgressDialog(this);
 
-        forgot_password.setOnClickListener(new View.OnClickListener() {
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginNexusMobileApp.this, ForgotPasswordNexusMobileApp.class);
@@ -80,7 +80,7 @@ public class LoginNexusMobileApp extends AppCompatActivity {
             }
         });
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+        loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email =  loginEmail.getText().toString();
@@ -96,11 +96,11 @@ public class LoginNexusMobileApp extends AppCompatActivity {
                 }
 
                 else {
-                    loader.setMessage("Sign in process in progress...");
-                    loader.setCanceledOnTouchOutside(false);
-                    loader.show();
+                    progressDialog.setMessage("Sign in process in progress...");
+                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog.show();
 
-                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
@@ -114,7 +114,7 @@ public class LoginNexusMobileApp extends AppCompatActivity {
                             else {
                                 Toast.makeText(LoginNexusMobileApp.this, "Sign in process failed, please try again "+task.getException(), Toast.LENGTH_LONG).show();
                             }
-                            loader.dismiss();
+                            progressDialog.dismiss();
 
                         }
                     });
@@ -127,12 +127,12 @@ public class LoginNexusMobileApp extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(authStateListener);
+        firebaseAuth.addAuthStateListener(stateListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mAuth.removeAuthStateListener(authStateListener);
+        firebaseAuth.removeAuthStateListener(stateListener);
     }
 }
