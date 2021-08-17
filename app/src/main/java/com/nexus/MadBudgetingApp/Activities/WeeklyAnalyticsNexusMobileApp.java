@@ -76,8 +76,8 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         personalReference = FirebaseDatabase.getInstance().getReference("personal").child(onlineuserid);
 
-        progressBar = findViewById(R.id.progress_circular_feed);
-        totalBudgetAmountTextView = findViewById(R.id.totalBudgetAmountTextView);
+        progressBar = findViewById(R.id.progress_circular_indicator);
+        totalBudgetAmountTextView = findViewById(R.id.totalExpenditureAmountTextView);
 
 
         monthSpentAmount = findViewById(R.id.monthSpentAmount);

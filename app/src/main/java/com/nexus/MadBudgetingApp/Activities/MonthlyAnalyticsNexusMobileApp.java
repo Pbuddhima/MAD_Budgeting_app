@@ -79,8 +79,8 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
         usersReference = FirebaseDatabase.getInstance().getReference("users").child(onlineUserId);
         personalReference = FirebaseDatabase.getInstance().getReference("personal").child(onlineUserId);
 
-        progressBar = findViewById(R.id.progress_circular_feed);
-        totalBudgetAmountTextView = findViewById(R.id.totalBudgetAmountTextView);
+        progressBar = findViewById(R.id.progress_circular_indicator);
+        totalBudgetAmountTextView = findViewById(R.id.totalExpenditureAmountTextView);
 
         analyticsTransportAmount = findViewById(R.id.analyticsTransportAmount);
         analyticsFoodAmount = findViewById(R.id.analyticsFoodAmount);
