@@ -37,7 +37,7 @@ public class AccountNexusMobileApp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_about_nexus_mobile_app);
+        setContentView(R.layout.activity_account_nexus_mobile_app);
 
         settingsToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(settingsToolbar);
@@ -56,7 +56,6 @@ public class AccountNexusMobileApp extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         onlineUserId = mAuth.getCurrentUser().getUid();
         usersRef = FirebaseDatabase.getInstance().getReference().child("users").child(onlineUserId);
-
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

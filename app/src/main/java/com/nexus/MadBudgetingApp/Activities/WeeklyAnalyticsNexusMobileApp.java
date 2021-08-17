@@ -41,25 +41,22 @@ import java.util.Map;
 
 public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
-    private Toolbar settingsToolbar;
-    private RecyclerView recyclerView;
-    private ProgressBar progress_circular;
-    private ImageView search_error_image;
+    private Toolbar toolbar;
+    private RecyclerView view;
+    private ProgressBar progressBar;
+    private ImageView imageView;
 
-    private FirebaseAuth mAuth;
-    private String onlineUserId = "";
-    private DatabaseReference expensesRef,personalRef;
-
-    private TextView totalBudgetAmountTextView, analyticsTransportAmount,analyticsFoodAmount,analyticsHouseExpensesAmount,analyticsEntertainmentAmount;
-    private TextView analyticsEducationAmount,analyticsCharityAmount,analyticsApparelAmount,analyticsHealthAmount,analyticsPersonalExpensesAmount,analyticsOtherAmount, monthSpentAmount;
-
-    private RelativeLayout linearLayoutFood,linearLayoutTransport,linearLayoutFoodHouse,linearLayoutEntertainment,linearLayoutEducation;
-    private RelativeLayout linearLayoutCharity,linearLayoutApparel,linearLayoutHealth,linearLayoutPersonalExp,linearLayoutOther, linearLayoutAnalysis;
-
+    private FirebaseAuth firebaseAuth;
+    private String onlineuserid = "";
     private AnyChartView anyChartView;
+    private DatabaseReference databaseReference, personalReference;
+    private RelativeLayout linearLayoutEntertainment,linearLayoutFood,linearLayoutTransport,linearLayoutFoodHouse,linearLayoutEducation;
+    private ImageView status_Image_ent,status_Image_transport, status_Image_food,status_Image_house,status_Image_edu,status_Image_cha,status_Image_app,status_Image_hea,status_Image_per,status_Image_oth, monthRatioSpending_Image;
+    private TextView  analyticsTransportAmount,analyticsFoodAmount,totalBudgetAmountTextView,analyticsHouseExpensesAmount,analyticsEntertainmentAmount;
+    private TextView analyticsEducationAmount,analyticsCharityAmount,analyticsApparelAmount,analyticsHealthAmount,analyticsPersonalExpensesAmount,analyticsOtherAmount, monthSpentAmount;
+    private RelativeLayout linearLayoutPersonalExp, linearLayoutCharity,linearLayoutApparel,linearLayoutHealth,linearLayoutOther, linearLayoutAnalysis;
+    private TextView progress_ratio_house, progress_ratio_transport,progress_ratio_food,progress_ratio_ent,progress_ratio_edu,progress_ratio_cha, progress_ratio_app,progress_ratio_hea,progress_ratio_per,progress_ratio_oth, monthRatioSpending;
 
-    private TextView progress_ratio_transport,progress_ratio_food,progress_ratio_house,progress_ratio_ent,progress_ratio_edu,progress_ratio_cha, progress_ratio_app,progress_ratio_hea,progress_ratio_per,progress_ratio_oth, monthRatioSpending;
-    private ImageView status_Image_transport, status_Image_food,status_Image_house,status_Image_ent,status_Image_edu,status_Image_cha,status_Image_app,status_Image_hea,status_Image_per,status_Image_oth, monthRatioSpending_Image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,19 +64,19 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_weekly_nexus_mobile_app);
 
-        settingsToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(settingsToolbar);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Week Analytics");
 
 
-        mAuth = FirebaseAuth.getInstance();
-        onlineUserId = mAuth.getCurrentUser().getUid();
-        expensesRef = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        personalRef = FirebaseDatabase.getInstance().getReference("personal").child(onlineUserId);
+        firebaseAuth = FirebaseAuth.getInstance();
+        onlineuserid = firebaseAuth.getCurrentUser().getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
+        personalReference = FirebaseDatabase.getInstance().getReference("personal").child(onlineuserid);
 
-        progress_circular = findViewById(R.id.progress_circular_feed);
+        progressBar = findViewById(R.id.progress_circular_feed);
         totalBudgetAmountTextView = findViewById(R.id.totalBudgetAmountTextView);
 
 
@@ -174,7 +171,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
         String itemNweek = "Transport"+weeks.getWeeks();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -188,12 +185,12 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsTransportAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("weekTrans").setValue(totalAmount);
+                    personalReference.child("weekTrans").setValue(totalAmount);
 
                 }
                 else {
                     linearLayoutTransport.setVisibility(View.GONE);
-                    personalRef.child("weekTrans").setValue(0);
+                    personalReference.child("weekTrans").setValue(0);
                 }
 
             }
@@ -213,7 +210,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
         String itemNweek = "Food"+weeks.getWeeks();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -227,10 +224,10 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsFoodAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("weekFood").setValue(totalAmount);
+                    personalReference.child("weekFood").setValue(totalAmount);
                 }else {
                     linearLayoutFood.setVisibility(View.GONE);
-                    personalRef.child("weekFood").setValue(0);
+                    personalReference.child("weekFood").setValue(0);
                 }
 
             }
@@ -249,7 +246,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
         String itemNweek = "House Expenses"+weeks.getWeeks();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -263,10 +260,10 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsHouseExpensesAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("weekHouse").setValue(totalAmount);
+                    personalReference.child("weekHouse").setValue(totalAmount);
                 }else {
                     linearLayoutFoodHouse.setVisibility(View.GONE);
-                    personalRef.child("weekHouse").setValue(0);
+                    personalReference.child("weekHouse").setValue(0);
                 }
 
             }
@@ -285,7 +282,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
         String itemNweek = "Entertainment"+weeks.getWeeks();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -299,10 +296,10 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsEntertainmentAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("weekEnt").setValue(totalAmount);
+                    personalReference.child("weekEnt").setValue(totalAmount);
                 }else {
                     linearLayoutEntertainment.setVisibility(View.GONE);
-                    personalRef.child("weekEnt").setValue(0);
+                    personalReference.child("weekEnt").setValue(0);
                 }
 
             }
@@ -321,7 +318,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
         String itemNweek = "Education"+weeks.getWeeks();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -335,10 +332,10 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsEducationAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("weekEdu").setValue(totalAmount);
+                    personalReference.child("weekEdu").setValue(totalAmount);
                 }else {
                     linearLayoutEducation.setVisibility(View.GONE);
-                    personalRef.child("weekEdu").setValue(0);
+                    personalReference.child("weekEdu").setValue(0);
                 }
 
             }
@@ -357,7 +354,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
         String itemNweek = "Charity"+weeks.getWeeks();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -371,10 +368,10 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsCharityAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("weekCha").setValue(totalAmount);
+                    personalReference.child("weekCha").setValue(totalAmount);
                 }else {
                     linearLayoutCharity.setVisibility(View.GONE);
-                    personalRef.child("weekCha").setValue(0);
+                    personalReference.child("weekCha").setValue(0);
                 }
 
             }
@@ -393,7 +390,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
         String itemNweek = "Apparel and Services"+weeks.getWeeks();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -407,10 +404,10 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsApparelAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("weekApp").setValue(totalAmount);
+                    personalReference.child("weekApp").setValue(totalAmount);
                 }else {
                     linearLayoutApparel.setVisibility(View.GONE);
-                    personalRef.child("weekApp").setValue(0);
+                    personalReference.child("weekApp").setValue(0);
                 }
 
             }
@@ -429,7 +426,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
         String itemNweek = "Health"+weeks.getWeeks();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -443,10 +440,10 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsHealthAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("weekHea").setValue(totalAmount);
+                    personalReference.child("weekHea").setValue(totalAmount);
                 }else {
                     linearLayoutHealth.setVisibility(View.GONE);
-                    personalRef.child("weekHea").setValue(0);
+                    personalReference.child("weekHea").setValue(0);
                 }
 
             }
@@ -465,7 +462,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
         String itemNweek = "Personal Expenses"+weeks.getWeeks();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -479,10 +476,10 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsPersonalExpensesAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("weekPer").setValue(totalAmount);
+                    personalReference.child("weekPer").setValue(totalAmount);
                 }else {
                     linearLayoutPersonalExp.setVisibility(View.GONE);
-                    personalRef.child("weekPer").setValue(0);
+                    personalReference.child("weekPer").setValue(0);
                 }
 
             }
@@ -501,7 +498,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
 
         String itemNweek = "Other"+weeks.getWeeks();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         Query query = reference.orderByChild("itemNweek").equalTo(itemNweek);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -515,10 +512,10 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsOtherAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("weekOther").setValue(totalAmount);
+                    personalReference.child("weekOther").setValue(totalAmount);
                 }else {
                     linearLayoutOther.setVisibility(View.GONE);
-                    personalRef.child("weekOther").setValue(0);
+                    personalReference.child("weekOther").setValue(0);
                 }
 
             }
@@ -535,7 +532,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
         DateTime now = new DateTime();
         Weeks weeks = Weeks.weeksBetween(epoch, now);
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineuserid);
         Query query = reference.orderByChild("week").equalTo(weeks.getWeeks());
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -565,7 +562,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
     }
 
     private void loadGraph(){
-        personalRef.addValueEventListener(new ValueEventListener() {
+        personalReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
@@ -684,7 +681,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
     }
 
     private void setStatusAndImageResource(){
-        personalRef.addValueEventListener(new ValueEventListener() {
+        personalReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists() ){

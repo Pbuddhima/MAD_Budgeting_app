@@ -41,27 +41,24 @@ import java.util.Map;
 
 public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
 
-    private Toolbar settingsToolbar;
+    private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private ProgressBar progress_circular;
-    private ImageView search_error_image;
+    private ProgressBar progressBar;
+    private ImageView imageView;
 
     private int totalMonthSpending = 0;
     private AnyChartView anyChartView;
-
-
-    private FirebaseAuth mAuth;
+    private FirebaseAuth firebaseAuth;
     private String onlineUserId = "";
-    private DatabaseReference expensesRef, usersRef,personalRef;
+    private DatabaseReference databaseReference, usersReference, personalReference;
 
-    private TextView totalBudgetAmountTextView, analyticsTransportAmount,analyticsFoodAmount,analyticsHouseExpensesAmount,analyticsEntertainmentAmount;
-    private TextView analyticsEducationAmount,analyticsCharityAmount,analyticsApparelAmount,analyticsHealthAmount,analyticsPersonalExpensesAmount,analyticsOtherAmount, monthSpentAmount;
+    private TextView analyticsFoodAmount,analyticsHouseExpensesAmount,totalBudgetAmountTextView, analyticsTransportAmount,analyticsEntertainmentAmount;
+    private TextView analyticsApparelAmount,analyticsHealthAmount,analyticsPersonalExpensesAmount,analyticsEducationAmount,analyticsCharityAmount,analyticsOtherAmount, monthSpentAmount;
+    private ImageView status_Image_house,status_Image_ent,status_Image_transport, status_Image_food,status_Image_edu,status_Image_cha,status_Image_app,status_Image_hea,status_Image_per,status_Image_oth, monthRatioSpending_Image;
+    private RelativeLayout linearLayoutPersonalExp,linearLayoutOther,linearLayoutCharity,linearLayoutApparel,linearLayoutHealth, linearLayoutAnalysis;
+    private RelativeLayout linearLayoutFoodHouse,linearLayoutEntertainment,linearLayoutFood,linearLayoutTransport,linearLayoutEducation;
+    private TextView progress_ratio_house,progress_ratio_ent,progress_ratio_transport,progress_ratio_food,progress_ratio_edu,progress_ratio_cha,progress_ratio_per,progress_ratio_oth, progress_ratio_app,progress_ratio_hea, monthRatioSpending;
 
-    private RelativeLayout linearLayoutFood,linearLayoutTransport,linearLayoutFoodHouse,linearLayoutEntertainment,linearLayoutEducation;
-    private RelativeLayout linearLayoutCharity,linearLayoutApparel,linearLayoutHealth,linearLayoutPersonalExp,linearLayoutOther, linearLayoutAnalysis;
-
-    private TextView progress_ratio_transport,progress_ratio_food,progress_ratio_house,progress_ratio_ent,progress_ratio_edu,progress_ratio_cha, progress_ratio_app,progress_ratio_hea,progress_ratio_per,progress_ratio_oth, monthRatioSpending;
-    private ImageView status_Image_transport, status_Image_food,status_Image_house,status_Image_ent,status_Image_edu,status_Image_cha,status_Image_app,status_Image_hea,status_Image_per,status_Image_oth, monthRatioSpending_Image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,20 +66,20 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_monthly_analytics_nexus_mobile_app);
 
-        settingsToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(settingsToolbar);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Monthly Analytics");
 
 
-        mAuth = FirebaseAuth.getInstance();
-        onlineUserId = mAuth.getCurrentUser().getUid();
-        expensesRef = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
-        usersRef = FirebaseDatabase.getInstance().getReference("users").child(onlineUserId);
-        personalRef = FirebaseDatabase.getInstance().getReference("personal").child(onlineUserId);
+        firebaseAuth = FirebaseAuth.getInstance();
+        onlineUserId = firebaseAuth.getCurrentUser().getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        usersReference = FirebaseDatabase.getInstance().getReference("users").child(onlineUserId);
+        personalReference = FirebaseDatabase.getInstance().getReference("personal").child(onlineUserId);
 
-        progress_circular = findViewById(R.id.progress_circular_feed);
+        progressBar = findViewById(R.id.progress_circular_feed);
         totalBudgetAmountTextView = findViewById(R.id.totalBudgetAmountTextView);
 
         analyticsTransportAmount = findViewById(R.id.analyticsTransportAmount);
@@ -186,12 +183,12 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsTransportAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("monthTrans").setValue(totalAmount);
+                    personalReference.child("monthTrans").setValue(totalAmount);
 
                 }
                 else {
                     linearLayoutTransport.setVisibility(View.GONE);
-                    personalRef.child("monthTrans").setValue(0);
+                    personalReference.child("monthTrans").setValue(0);
                 }
 
             }
@@ -225,10 +222,10 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsFoodAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("monthFood").setValue(totalAmount);
+                    personalReference.child("monthFood").setValue(totalAmount);
                 }else {
                     linearLayoutFood.setVisibility(View.GONE);
-                    personalRef.child("monthFood").setValue(0);
+                    personalReference.child("monthFood").setValue(0);
                 }
 
             }
@@ -261,10 +258,10 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsHouseExpensesAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("monthHouse").setValue(totalAmount);
+                    personalReference.child("monthHouse").setValue(totalAmount);
                 }else {
                     linearLayoutFoodHouse.setVisibility(View.GONE);
-                    personalRef.child("monthHouse").setValue(0);
+                    personalReference.child("monthHouse").setValue(0);
                 }
 
             }
@@ -297,10 +294,10 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsEntertainmentAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("monthEnt").setValue(totalAmount);
+                    personalReference.child("monthEnt").setValue(totalAmount);
                 }else {
                     linearLayoutEntertainment.setVisibility(View.GONE);
-                    personalRef.child("monthEnt").setValue(0);
+                    personalReference.child("monthEnt").setValue(0);
                 }
 
             }
@@ -333,10 +330,10 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsEducationAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("monthEdu").setValue(totalAmount);
+                    personalReference.child("monthEdu").setValue(totalAmount);
                 }else {
                     linearLayoutEducation.setVisibility(View.GONE);
-                    personalRef.child("monthEdu").setValue(0);
+                    personalReference.child("monthEdu").setValue(0);
                 }
 
             }
@@ -369,10 +366,10 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsCharityAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("monthChar").setValue(totalAmount);
+                    personalReference.child("monthChar").setValue(totalAmount);
                 }else {
                     linearLayoutCharity.setVisibility(View.GONE);
-                    personalRef.child("monthChar").setValue(0);
+                    personalReference.child("monthChar").setValue(0);
                 }
 
             }
@@ -405,10 +402,10 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsApparelAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("monthApp").setValue(totalAmount);
+                    personalReference.child("monthApp").setValue(totalAmount);
                 }else {
                     linearLayoutApparel.setVisibility(View.GONE);
-                    personalRef.child("monthApp").setValue(0);
+                    personalReference.child("monthApp").setValue(0);
                 }
 
             }
@@ -441,10 +438,10 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsHealthAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("monthHea").setValue(totalAmount);
+                    personalReference.child("monthHea").setValue(totalAmount);
                 }else {
                     linearLayoutHealth.setVisibility(View.GONE);
-                    personalRef.child("monthHea").setValue(0);
+                    personalReference.child("monthHea").setValue(0);
                 }
 
             }
@@ -477,10 +474,10 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsPersonalExpensesAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("monthPer").setValue(totalAmount);
+                    personalReference.child("monthPer").setValue(totalAmount);
                 }else {
                     linearLayoutPersonalExp.setVisibility(View.GONE);
-                    personalRef.child("monthPer").setValue(0);
+                    personalReference.child("monthPer").setValue(0);
                 }
 
             }
@@ -513,9 +510,9 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
                         totalAmount += pTotal;
                         analyticsOtherAmount.setText("Spent: " + totalAmount);
                     }
-                    personalRef.child("monthOther").setValue(totalAmount);
+                    personalReference.child("monthOther").setValue(totalAmount);
                 }else {
-                    personalRef.child("monthOther").setValue(0);
+                    personalReference.child("monthOther").setValue(0);
                     linearLayoutOther.setVisibility(View.GONE);
                 }
 
@@ -567,7 +564,7 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
 
 
     private void loadGraph(){
-        personalRef.addValueEventListener(new ValueEventListener() {
+        personalReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
@@ -685,7 +682,7 @@ public class MonthlyAnalyticsNexusMobileApp extends AppCompatActivity {
         });
     }
     private void setStatusAndImageResource(){
-        personalRef.addValueEventListener(new ValueEventListener() {
+        personalReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){

@@ -14,9 +14,8 @@ import com.nexus.MadBudgetingApp.R;
 
 public class SelectAnalyticsNexusMobileApp extends AppCompatActivity {
 
-    private Toolbar settingsToolbar;
-
-    private CardView todayCardView, weekCardView, monthCardView;
+    private Toolbar toolbar;
+    private CardView cardView, weekcardview, monthcardview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,20 +23,20 @@ public class SelectAnalyticsNexusMobileApp extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_select_analytics_nexus_mobile_app);
 
-        settingsToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(settingsToolbar);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Select Analytics");
 
-        todayCardView = findViewById(R.id.todayCardView);
+        cardView = findViewById(R.id.todayCardView);
 
-        weekCardView = findViewById(R.id.weekCardView);
+        weekcardview = findViewById(R.id.weekCardView);
 
-        monthCardView = findViewById(R.id.monthCardView);
+        monthcardview = findViewById(R.id.monthCardView);
 
 
-        todayCardView.setOnClickListener(new View.OnClickListener() {
+        cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SelectAnalyticsNexusMobileApp.this, DailyAnalyticsNexusMobileApp.class);
@@ -45,7 +44,7 @@ public class SelectAnalyticsNexusMobileApp extends AppCompatActivity {
             }
         });
 
-        weekCardView.setOnClickListener(new View.OnClickListener() {
+        weekcardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SelectAnalyticsNexusMobileApp.this, WeeklyAnalyticsNexusMobileApp.class);
@@ -53,7 +52,7 @@ public class SelectAnalyticsNexusMobileApp extends AppCompatActivity {
             }
         });
 
-        monthCardView.setOnClickListener(new View.OnClickListener() {
+        monthcardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SelectAnalyticsNexusMobileApp.this, MonthlyAnalyticsNexusMobileApp.class);
