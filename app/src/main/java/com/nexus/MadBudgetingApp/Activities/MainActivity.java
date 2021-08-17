@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        my_Feed_Toolbar = findViewById(R.id.my_Feed_Toolbar);
+        my_Feed_Toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(my_Feed_Toolbar);
         getSupportActionBar().setTitle("Students Budgeting App");
 

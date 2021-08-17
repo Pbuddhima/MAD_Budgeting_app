@@ -73,7 +73,7 @@ public class TodaySpendingNexusMobileApp extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_today_spending_nexus_mobile_app);
 
-        settingsToolbar = findViewById(R.id.my_Feed_Toolbar);
+        settingsToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(settingsToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -89,7 +89,7 @@ public class TodaySpendingNexusMobileApp extends AppCompatActivity {
         fab = findViewById(R.id.fab);
         loader = new ProgressDialog(this);
 
-        recyclerView = findViewById(R.id.recycler_View_Id_Feed);
+        recyclerView = findViewById(R.id.recycler_view_id);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);

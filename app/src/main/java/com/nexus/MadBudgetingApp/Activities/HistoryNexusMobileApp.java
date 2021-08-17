@@ -39,14 +39,14 @@ public class HistoryNexusMobileApp extends AppCompatActivity implements DatePick
     private TodayItemsAdapter todayItemsAdapter;
     private List<Data> myDataList;
 
-    private FirebaseAuth mAuth;
-    private String onlineUserId = "";
-    private DatabaseReference expensesRef, personalRef;
+    private FirebaseAuth firebaseAuth;
+    private String userId = "";
+    private DatabaseReference todayExpenditureRef, personalRef;
 
-    private Toolbar settingsToolbar;
+    private Toolbar toolbar;
 
     private Button search;
-    private TextView historyTotalAmountSpent;
+    private TextView totalExpenditureAmountTextView;
 
 
     @Override
@@ -55,20 +55,20 @@ public class HistoryNexusMobileApp extends AppCompatActivity implements DatePick
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_history_nexus_mobile_app);
 
-        settingsToolbar = findViewById(R.id.my_Feed_Toolbar);
-        setSupportActionBar(settingsToolbar);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("History");
 
 
-        search = findViewById(R.id.search);
-        historyTotalAmountSpent = findViewById(R.id.historyTotalAmountSpent);
+        search = findViewById(R.id.history_search);
+        totalExpenditureAmountTextView = findViewById(R.id.history_total_spent);
 
-        mAuth = FirebaseAuth.getInstance();
-        onlineUserId = mAuth.getCurrentUser().getUid();
+        firebaseAuth = FirebaseAuth.getInstance();
+        userId = firebaseAuth.getCurrentUser().getUid();
 
-        recyclerView = findViewById(R.id.recycler_View_Id_Feed);
+        recyclerView = findViewById(R.id.recycler_view_id);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
@@ -117,7 +117,7 @@ public class HistoryNexusMobileApp extends AppCompatActivity implements DatePick
         String date = dayOfMonth+"-"+"0"+months +"-"+year;
         Toast.makeText(this, date, Toast.LENGTH_SHORT).show();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(onlineUserId);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("expenses").child(userId);
         Query query = reference.orderByChild("date").equalTo(date);
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -137,8 +137,8 @@ public class HistoryNexusMobileApp extends AppCompatActivity implements DatePick
                     int pTotal = Integer.parseInt(String.valueOf(total));
                     totalAmount+=pTotal;
                     if (totalAmount >0){
-                        historyTotalAmountSpent.setVisibility(View.VISIBLE);
-                        historyTotalAmountSpent.setText("This day you spent Ksh: "+ totalAmount);
+                        totalExpenditureAmountTextView.setVisibility(View.VISIBLE);
+                        totalExpenditureAmountTextView.setText("This day you spent Ksh: "+ totalAmount);
                     }
 
                 }

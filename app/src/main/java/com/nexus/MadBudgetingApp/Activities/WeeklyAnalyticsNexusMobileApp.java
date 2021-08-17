@@ -67,7 +67,7 @@ public class WeeklyAnalyticsNexusMobileApp extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_weekly_nexus_mobile_app);
 
-        settingsToolbar = findViewById(R.id.my_Feed_Toolbar);
+        settingsToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(settingsToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

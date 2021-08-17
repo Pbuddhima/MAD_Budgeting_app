@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#0000ff"
-        android:id="@+id/my_Feed_Toolbar"
+        android:id="@+id/toolbar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:elevation="4dp">
@@ -20,7 +20,7 @@
 
     <TableLayout
         android:id="@+id/titles_table"
-        android:layout_below="@+id/my_Feed_Toolbar"
+        android:layout_below="@+id/toolbar"
         android:layout_gravity="center_horizontal"
         android:paddingHorizontal="10dp"
         android:layout_width="match_parent"

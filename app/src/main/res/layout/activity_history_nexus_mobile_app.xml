@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#000"
-        android:id="@+id/my_Feed_Toolbar"
+        android:id="@+id/toolbar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:elevation="4dp">
@@ -38,7 +38,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/search"
+                    android:id="@+id/history_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -49,7 +49,7 @@
                     android:textColor="#fff" />
 
                 <TextView
-                    android:id="@+id/historyTotalAmountSpent"
+                    android:id="@+id/history_total_spent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -68,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="20dp"
-                    android:id="@+id/recycler_View_Id_Feed"
+                    android:id="@+id/recycler_view_id"
                     android:visibility="gone"
                     />
 
