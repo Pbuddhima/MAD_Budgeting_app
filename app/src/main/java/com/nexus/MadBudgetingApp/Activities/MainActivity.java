@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference budgetRef, expensesRef, personalRef;
     private String onlineUserID = "";
 
-    private FloatingActionButton fab;
+//    private FloatingActionButton fab;
     private ProgressDialog progressDialog;
 
     private int totalAmountMonth = 0;
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         budgetTv = findViewById(R.id.budgetTv);
         todaySpendingTv = findViewById(R.id.todaySpendingTv);
         remainingBudgetTv = findViewById(R.id.remainingBudgetTv);
-        fab = findViewById(R.id.fab);
+//        fab = findViewById(R.id.fab);
         monthSpendingTv = findViewById(R.id.monthSpendingTv);
         weekSpendingTv = findViewById(R.id.weekSpendingTv);
         progressDialog = new ProgressDialog(this);
@@ -152,12 +152,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         //click listener on fab
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addItemSpentOn();
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                addItemSpentOn();
+//            }
+//        });
 
         budgetRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -310,9 +310,7 @@ public class MainActivity extends AppCompatActivity {
                     totalAmountBudget=0;
                     budgetTv.setText("Ksh "+String.valueOf(0));
 
-
                 }
-
 
             }
 

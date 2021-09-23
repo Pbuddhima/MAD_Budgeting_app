@@ -53,8 +53,25 @@
             android:layout_margin="16dp"
             app:fabSize="normal"
             android:src="@drawable/ic_add"
-            android:backgroundTint="#000"
+            android:backgroundTint="#C21ADD"
             />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="16dp"
+            android:text="Team  Nexus"
+            android:layout_gravity="bottom|center"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.532"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:layout_constraintVertical_bias="0.771" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
