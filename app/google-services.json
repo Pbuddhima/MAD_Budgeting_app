@@ -8,20 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:576515246398:android:93396681734bb64d95446f",
+        "mobilesdk_app_id": "1:576515246398:android:8d50e62eeec0833095446f",
         "android_client_info": {
           "package_name": "com.nexus.MadBudgetingApp"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "576515246398-t27sjmekr5n2jacpr36p8jjpp9fchuc4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.nexus.MadBudgetingApp",
-            "certificate_hash": "2bf9633d3c894bcddbb2b1240ef617e590b12a24"
-          }
-        },
         {
           "client_id": "576515246398-e5a3ivvcgdeu3nio44vfggj1s9k7qmmi.apps.googleusercontent.com",
           "client_type": 3
